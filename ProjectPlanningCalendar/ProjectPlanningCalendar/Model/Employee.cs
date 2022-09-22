@@ -26,5 +26,7 @@ namespace ProjectPlanningCalendar
         public Brush Foreground { get; set; }
 
         public string ImageName { get; set; }
+
+        public string Role { get; set; }
     }
 }

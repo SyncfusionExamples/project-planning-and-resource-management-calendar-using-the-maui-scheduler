@@ -11,22 +11,34 @@ namespace ProjectPlanningCalendar
     public class ResourceViewModel
     {
         /// <summary>
+        /// Gets or sets appointments.
+        /// </summary>
+        public ObservableCollection<Task> Tasks { get; set; }
+
+        public ObservableCollection<object> Resources { get; set; }
+
+        /// <summary>
+        /// Gets or sets the schedule display date.
+        /// </summary>
+        public DateTime DisplayDate { get; set; }
+
+        /// <summary>
         /// color collection
         /// </summary>
-        private List<Brush> colors;
+        private List<Brush> resourceColors;
 
         /// <summary>
         /// Initializes a new instance of the <see cref="ResourceViewModel" /> class.
         /// </summary>
         public ResourceViewModel()
         {
-            this.colors = new List<Brush>();
-            this.Events = new ObservableCollection<Task>();
+            this.resourceColors = new List<Brush>();
+            this.Tasks = new ObservableCollection<Task>();
             this.Resources = new ObservableCollection<object>();
             this.DisplayDate = DateTime.Now.Date.AddHours(8).AddMinutes(50);
-            this.AddResourcesColors();  
+            this.AddResourcesColors();
             this.AddSchedulerResources();
-            this.BookingAppointments();
+            this.PlanTasks();
         }
 
         /// <summary>
@@ -37,243 +49,166 @@ namespace ProjectPlanningCalendar
             Random random = new Random();
             List<string> employeeNames = new List<string>
             {
-                "Johnny",
-                "James William",
-                "Kinsley Elena",
-                "Adeline Ruby",
-                "Daniel",
-                "Emilia",
-                "Robert",
-                "Sophia",
-                "Stephen",
+                  "Robert", "Sophia", "Emilia" , "Stephen",  "James William", "Johnny", "Daniel", "Adeline Ruby","Kinsley Elena",
             };
 
             for (int i = 0; i < 9; i++)
             {
                 Employee employees = new Employee();
                 employees.Name = employeeNames[i];
-                employees.Background = this.colors[random.Next(0, 9)];
+                employees.Background = this.resourceColors[random.Next(this.resourceColors.Count)];
                 employees.Foreground = (employees.Background as SolidColorBrush)?.Color.GetLuminosity() > 0.7 ? Colors.Black : Colors.White;
-                employees.Id = i.ToString();
+                employees.Id = i + 1;
 
-                if (employees.Name == "Johnny")
-                {
-                    employees.ImageName = "people8.png";
-                }
-                else if (employees.Name == "Stephen")
-                {
-                    employees.ImageName = "people1.png";
-                }
-                else if (employees.Name == "Robert")
+                if (employees.Name == "Robert")
                 {
                     employees.ImageName = "people9.png";
+                    employees.Role = "Project manager";
                 }
                 else if (employees.Name == "Sophia")
                 {
                     employees.ImageName = "people2.png";
+                    employees.Role = "Team lead";
                 }
                 else if (employees.Name == "Emilia")
                 {
                     employees.ImageName = "people7.png";
+                    employees.Role = "Developer";
                 }
-                else if (employees.Name == "Daniel")
+                else if (employees.Name == "Stephen")
                 {
-                    employees.ImageName = "people3.png";
-                }
-                else if (employees.Name == "Adeline Ruby")
-                {
-                    employees.ImageName = "people4.png";
-                }
-                else if (employees.Name == "Kinsley Elena")
-                {
-                    employees.ImageName = "people5.png";
+                    employees.ImageName = "people1.png";
+                    employees.Role = "Developer";
                 }
                 else if (employees.Name == "James William")
                 {
                     employees.ImageName = "people6.png";
+                    employees.Role = "Developer";
+                }
+                else if (employees.Name == "Daniel")
+                {
+                    employees.ImageName = "people3.png";
+                    employees.Role = "Tester";
+                }
+                else if (employees.Name == "Johnny")
+                {
+                    employees.ImageName = "people8.png";
+                    employees.Role = "Tester";
+                }
+                else if (employees.Name == "Adeline Ruby")
+                {
+                    employees.ImageName = "people4.png";
+                    employees.Role = "Support Engineer";
+                }
+                else if (employees.Name == "Kinsley Elena")
+                {
+                    employees.ImageName = "people5.png";
+                    employees.Role = "Content writer";
                 }
                 //// Bind this custom resources.
-                Resources?.Add(employees);
+                Resources.Add(employees);
             }
         }
 
-
         /// <summary>
-        /// Gets or sets appointments.
+        /// Method to create tasks.
         /// </summary>
-        public ObservableCollection<Task>? Events { get; set; }
-
-        public ObservableCollection<object>? Resources { get; set; }
-
-        /// <summary>
-        /// Gets or sets the schedule display date.
-        /// </summary>
-        public DateTime DisplayDate { get; set; }
-
-
-        /// <summary>
-        /// Method for booking appointments.
-        /// </summary>
-        internal void BookingAppointments()
+        private void PlanTasks()
         {
-            Random randomTime = new Random();
-            List<Point> randomTimeCollection = this.GettingTimeRanges();
-            DateTime date;
-            DateTime today = DateTime.Now;
+            Random random = new Random();
             DateTime dateFrom = DateTime.Now.AddDays(-80);
             DateTime dateTo = DateTime.Now.AddDays(80);
-            DateTime dateRangeStart = DateTime.Now.AddDays(-70);
-            DateTime dateRangeEnd = DateTime.Now.AddDays(70);
 
-            List<string> currentDayMeetings = new List<string>
-            {
-                "General Meeting",
-                "Plan Execution",
-                "Project Plan",
-                "Consulting",
-                "Performance Check",
-                "Yoga Therapy",
-                "Plan Execution",
-                "Project Plan",
-                "Consulting",
-                "Performance Check"
-            };
+            List<string> managerTasks = new List<string> { "Project goal", "Project plan", "API review", "Project final review" };
 
-            List<int> startHours = new List<int>
-            {
-                0,
-                12,
-                12
-            };
+            List<string> teamleadTasks = new List<string> { "Project requirments", "Project design", "API analysis", "Feature review", "Support coordinate", "Tech Blog", "Sprint plan", "Sprint review", "Sprint retrospect" };
 
-            for (date = dateFrom; date < dateTo; date = date.AddDays(1))
+            List<string> supportTasks = new List<string> { "Customer meeting", "User gauide documentation", "Knowbase document" };
+
+            List<string> developmentTasks = new List<string> { "Base for calendar", "Implement month calendar", "Implement year calendar", "Implement decade calendar", "Implement century calendar", "Implement date selection", "Implement range selection", "Implement blackout dates", "Implement multiple selection" };
+
+            List<string> testingTasks = new List<string> { "Unit testing", "UI automation", "Performance testing", "Memory leak testing", "Feature testing", "Demos testing", "Automate test cases", "Peer testing", "Exploratory testing", "Sanity testing" };
+
+            List<string> documentationTasks = new List<string> { "User guide documentation", "Feature tour", "Whats new", "Road map", "Knowledge base", "Technical review", "Content review", };
+
+            for (DateTime date = dateFrom; date < dateTo; date = date.AddDays(1))
             {
-                for (int res = 0; res < 2; res++)
+                if (date.DayOfWeek != DayOfWeek.Monday)
+                    continue;
+
+                for (int i = 0; i < 9; i++)
                 {
-                    Employee? resource = this.Resources[randomTime.Next(this.Resources.Count)] as Employee;
-                    if ((DateTime.Compare(date, dateRangeStart) > 0) && (DateTime.Compare(date, dateRangeEnd) < 0))
+                    Employee resource = this.Resources[i] as Employee;
+                    DateTime startDate = new DateTime(date.Year, date.Month, date.Day, random.Next(9, 18), 0, 0);
+                    Task meeting = new Task();
+                    meeting.From = startDate;
+                    meeting.To = startDate.AddDays(4).AddHours(1);
+                    meeting.Background = this.resourceColors[random.Next(resourceColors.Count)];
+                    meeting.Resources = new ObservableCollection<object>() { resource.Id };
+                    meeting.IsAllDay = true;
+
+                    if (string.Equals(resource.Role, "Project manager"))
                     {
-                        for (int additionalAppointmentIndex = 0; additionalAppointmentIndex < 3; additionalAppointmentIndex++)
-                        {
-                            Task meeting = new Task();
-                            meeting.From = new DateTime(date.Year, date.Month, date.Day, startHours[randomTime.Next(0, 2)], 0, 0);
-                            meeting.To = meeting.From.AddHours(12);
-                            meeting.EventName = currentDayMeetings[randomTime.Next(9)];
-                            meeting.Background = this.colors[randomTime.Next(9)];
-                            meeting.IsAllDay = false;
-                            meeting.StartTimeZone = TimeZoneInfo.Local;
-                            meeting.EndTimeZone = TimeZoneInfo.Local;
-                            ObservableCollection<object> resources = new ObservableCollection<object>();
-                            if (resource != null && resource.Id != null)
-                            {
-                                resources.Add(resource.Id);
-                            }
-                            meeting.Resources = resources;
-                            this.Events?.Add(meeting);
-                        }
+                        meeting.TaskName = managerTasks[random.Next(managerTasks.Count)];
                     }
-                    else
+                    else if (string.Equals(resource.Role, "Team lead"))
                     {
-                        Task meeting = new Task();
-                        meeting.From = new DateTime(date.Year, date.Month, date.Day, randomTime.Next(9, 11), 0, 0);
-                        meeting.To = meeting.From.AddDays(2).AddHours(4);
-                        meeting.EventName = currentDayMeetings[randomTime.Next(9)];
-                        meeting.Background = this.colors[randomTime.Next(9)];
-                        meeting.IsAllDay = true;
-                        meeting.StartTimeZone = TimeZoneInfo.Local;
-                        meeting.EndTimeZone = TimeZoneInfo.Local;
-                        ObservableCollection<object> resources = new ObservableCollection<object>();
-                        if (resource != null && resource.Id != null)
-                        {
-                            resources.Add(resource.Id);
-                        }
-                        meeting.Resources = resources;
-                        this.Events?.Add(meeting);
+                        meeting.TaskName = teamleadTasks[random.Next(teamleadTasks.Count)];
                     }
+                    else if (string.Equals(resource.Role, "Developer"))
+                    {
+                        meeting.TaskName = developmentTasks[random.Next(developmentTasks.Count)];
+                    }
+                    else if (string.Equals(resource.Role, "Tester"))
+                    {
+                        meeting.TaskName = testingTasks[random.Next(testingTasks.Count)];
+                    }
+                    else if (string.Equals(resource.Role, "Support Engineer"))
+                    {
+                        meeting.TaskName = supportTasks[random.Next(supportTasks.Count)];
+                    }
+                    else if (string.Equals(resource.Role, "Content writer"))
+                    {
+                        meeting.TaskName = documentationTasks[random.Next(documentationTasks.Count)];
+                    }
+
+                    this.Tasks?.Add(meeting);
                 }
             }
 
-            for (int i = 0; i < 5; i++)
-            {
-                Employee? resourceView = this.Resources[i] as Employee;
-                //// Adding Span appointments
-                Task meeting = new Task();
-                meeting.From = today.Date.AddDays(1);
-                meeting.To = today.Date.AddDays(8);
-                meeting.EventName = currentDayMeetings[randomTime.Next(9)];
-                meeting.Background = this.colors[randomTime.Next(10)];
-                ObservableCollection<object> meetingResources = new ObservableCollection<object>();
-                if (resourceView != null && resourceView.Id != null)
-                {
-                    meetingResources.Add(resourceView.Id);
-                }
-                meeting.Resources = meetingResources;
+            /// Plan daily scrum meeting  
+            Task recurringMeeting = new Task();
+            recurringMeeting.TaskName = "Scrum meeting";
+            recurringMeeting.From = new DateTime(dateFrom.Year, dateFrom.Month, dateFrom.Day, 10, 0, 0);
+            recurringMeeting.To = recurringMeeting.From.AddMinutes(30);
+            recurringMeeting.Background = this.resourceColors[random.Next(resourceColors.Count)];
+            recurringMeeting.Resources = new ObservableCollection<object>() { 2, 3, 4, 5, 6, 7, 8, 9 };
+            recurringMeeting.IsAllDay = false;
+            recurringMeeting.RecurrenceRule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1";
+            this.Tasks.Add(recurringMeeting);
 
-                Task planning = new Task();
-                planning.EventName = currentDayMeetings[randomTime.Next(9)];
-                planning.From = today.Date.AddDays(-6);
-                planning.To = today.Date;
-                planning.Background = this.colors[randomTime.Next(10)];
-                ObservableCollection<object> planningResources = new ObservableCollection<object>();
-                if (resourceView != null && resourceView.Id != null)
-                {
-                    planningResources.Add(resourceView.Id);
-                }
-                planning.Resources = planningResources;
+            /// Plan weekly development meeting  
+            Task overAllDevelopmentMeeting = new Task();
+            overAllDevelopmentMeeting.TaskName = "Development meeting";
+            overAllDevelopmentMeeting.From = new DateTime(dateFrom.Year, dateFrom.Month, dateFrom.Day, 11, 30, 0);
+            overAllDevelopmentMeeting.To = overAllDevelopmentMeeting.From.AddMinutes(30);
+            overAllDevelopmentMeeting.Background = this.resourceColors[random.Next(resourceColors.Count)];
+            overAllDevelopmentMeeting.Resources = new ObservableCollection<object>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
+            overAllDevelopmentMeeting.IsAllDay = false;
+            overAllDevelopmentMeeting.RecurrenceRule = "FREQ=WEEKLY;BYDAY=TU;INTERVAL=1";
+            this.Tasks.Add(overAllDevelopmentMeeting);
 
-                Task consulting = new Task();
-                consulting.EventName = currentDayMeetings[randomTime.Next(9)];
-                consulting.From = today.Date.AddHours(23);
-                consulting.To = today.Date.AddDays(1).AddHours(2);
-                consulting.IsAllDay = false;
-                consulting.Background = this.colors[randomTime.Next(10)];
-                ObservableCollection<object> consultingResources = new ObservableCollection<object>();
-                if (resourceView != null && resourceView.Id != null)
-                {
-                    consultingResources.Add(resourceView.Id);
-                }
-                consulting.Resources = consultingResources;
-
-                this.Events?.Add(meeting);
-                this.Events?.Add(planning);
-                this.Events?.Add(consulting);
-            }
         }
 
         /// <summary>
-        /// Method for get timing range.
-        /// </summary>
-        /// <returns>return time collection</returns>
-        private List<Point> GettingTimeRanges()
-        {
-            List<Point> randomTimeCollection = new List<Point>
-            {
-                new Point(9, 11),
-                new Point(12, 14),
-                new Point(15, 17)
-            };
-
-            return randomTimeCollection;
-        }
-
-        /// <summary>
-        /// method to add colors for task and scheduler resources.
+        /// Method to add colors for task and scheduler resources.
         /// </summary>
         private void AddResourcesColors()
         {
-            this.colors = new List<Brush>
+            this.resourceColors = new List<Brush>
             {
-                Color.FromArgb("#FF8B1FA9"),
-                Color.FromArgb("#FFD20100"),
-                Color.FromArgb("#FFFC571D"),
-                Color.FromArgb("#FF36B37B"),
-                Color.FromArgb("#FF3D4FB5"),
-                Color.FromArgb("#FF3D4FB5"),
-                Color.FromArgb("#FF636363"),
-                Color.FromArgb("#FF636363"),
-                Color.FromArgb("#FF01A1EF"),
-                Color.FromArgb("#FF0F8644"),
-                Color.FromArgb("#FF00ABA9")
+                Color.FromArgb("#FF8B1FA9"), Color.FromArgb("#FFD20100"), Color.FromArgb("#FFFC571D"), Color.FromArgb("#FF36B37B"), Color.FromArgb("#FF3D4FB5"),
+                Color.FromArgb("#FF3D4FB5"), Color.FromArgb("#FF636363"),  Color.FromArgb("#FF636363"),  Color.FromArgb("#FF01A1EF"), Color.FromArgb("#FF0F8644"), Color.FromArgb("#FF00ABA9")
             };
         }
 
