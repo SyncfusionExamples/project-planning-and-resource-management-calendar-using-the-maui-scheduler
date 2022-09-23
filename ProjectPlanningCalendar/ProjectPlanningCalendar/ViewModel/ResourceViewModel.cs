@@ -30,7 +30,7 @@ namespace ProjectPlanningCalendar
         }
 
         /// <summary>
-        /// Method to add resources or employees to the scheduler.
+        /// Method to get resources or employees to the scheduler.
         /// </summary>
         /// <returns>Scheduler resources</returns>
         private List<object> GetSchedulerResources()
@@ -101,7 +101,7 @@ namespace ProjectPlanningCalendar
         }
 
         /// <summary>
-        /// Method to create tasks.
+        /// Method to get tasks for employees.
         /// </summary>
         /// <returns>Employee tasks</returns>
         private List<Task> GetEmployeeTasks()
@@ -195,7 +195,7 @@ namespace ProjectPlanningCalendar
         }
 
         /// <summary>
-        /// Method to add colors for employee task and scheduler resources.
+        /// Method to get colors for employee task and scheduler resources.
         /// </summary>
         /// <returns>resource colors</returns>
         private List<Brush> GetResourceColors()
