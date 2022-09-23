@@ -133,39 +133,39 @@ namespace ProjectPlanningCalendar
                 {
                     Employee resource = this.Resources[i] as Employee;
                     DateTime startDate = new DateTime(date.Year, date.Month, date.Day, random.Next(9, 18), 0, 0);
-                    Task meeting = new();
-                    meeting.From = startDate;
-                    meeting.To = startDate.AddDays(4).AddHours(1);
-                    meeting.Background = this.resourceColors[random.Next(resourceColors.Count)];
-                    meeting.Resources = new ObservableCollection<object>() { resource.Id };
-                    meeting.IsAllDay = true;
+                    Task task = new();
+                    task.From = startDate;
+                    task.To = startDate.AddDays(4).AddHours(1);
+                    task.Background = this.resourceColors[random.Next(resourceColors.Count)];
+                    task.Resources = new ObservableCollection<object>() { resource.Id };
+                    task.IsAllDay = true;
 
                     if (string.Equals(resource.Role, "Project manager"))
                     {
-                        meeting.TaskName = managerTasks[random.Next(managerTasks.Count)];
+                        task.TaskName = managerTasks[random.Next(managerTasks.Count)];
                     }
                     else if (string.Equals(resource.Role, "Team lead"))
                     {
-                        meeting.TaskName = teamleadTasks[random.Next(teamleadTasks.Count)];
+                        task.TaskName = teamleadTasks[random.Next(teamleadTasks.Count)];
                     }
                     else if (string.Equals(resource.Role, "Developer"))
                     {
-                        meeting.TaskName = developmentTasks[random.Next(developmentTasks.Count)];
+                        task.TaskName = developmentTasks[random.Next(developmentTasks.Count)];
                     }
                     else if (string.Equals(resource.Role, "Tester"))
                     {
-                        meeting.TaskName = testingTasks[random.Next(testingTasks.Count)];
+                        task.TaskName = testingTasks[random.Next(testingTasks.Count)];
                     }
                     else if (string.Equals(resource.Role, "Support Engineer"))
                     {
-                        meeting.TaskName = supportTasks[random.Next(supportTasks.Count)];
+                        task.TaskName = supportTasks[random.Next(supportTasks.Count)];
                     }
                     else if (string.Equals(resource.Role, "Content writer"))
                     {
-                        meeting.TaskName = documentationTasks[random.Next(documentationTasks.Count)];
+                        task.TaskName = documentationTasks[random.Next(documentationTasks.Count)];
                     }
 
-                    tasks.Add(meeting);
+                    tasks.Add(task);
                 }
             }
 

@@ -8,10 +8,10 @@ namespace ProjectPlanningCalendar
         /// Begins when the behavior attached to the view 
         /// </summary>
         /// <param name="bindable">bindable value.</param>
-        protected override void OnAttachedTo(SfScheduler bindable)
+        protected override void OnAttachedTo(SfScheduler scheduler)
         {
-            base.OnAttachedTo(bindable);
-            bindable.SelectableDayPredicate = (date) =>
+            base.OnAttachedTo(scheduler);
+            scheduler.SelectableDayPredicate = (date) =>
             {
                 if (date.DayOfWeek == DayOfWeek.Sunday || date.DayOfWeek == DayOfWeek.Saturday)
                 {
