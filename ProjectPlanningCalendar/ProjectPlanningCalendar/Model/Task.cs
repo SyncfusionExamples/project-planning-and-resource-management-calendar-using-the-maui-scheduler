@@ -1,24 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace ProjectPlanningCalendar
 {
     public class Task
     {
-        public Task()
-        {
-            this.From = DateTime.Now;
-            this.To = DateTime.Now;
-            this.TaskName = string.Empty;
-            this.Background = Brush.Transparent;
-            this.RecurrenceRule = string.Empty;
-            this.Resources = new ObservableCollection<object>();
-        }
-
         /// <summary>
         /// Gets or sets the value to display the start date.
         /// </summary>
@@ -50,7 +35,7 @@ namespace ProjectPlanningCalendar
         public ObservableCollection<object> Resources { get; set; }
 
         /// <summary>
-        /// Gets or sets the value to all day appointments.
+        /// Gets or sets the value to all day appointment.
         /// </summary>
         public bool IsAllDay { get; set; }
     }

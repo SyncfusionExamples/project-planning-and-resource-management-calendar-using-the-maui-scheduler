@@ -1,10 +1,4 @@
-﻿using Syncfusion.Maui.Scheduler;
-using System;
-using System.Collections.Generic;
-using System.Collections.ObjectModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.ObjectModel;
 
 namespace ProjectPlanningCalendar
 {
@@ -13,17 +7,15 @@ namespace ProjectPlanningCalendar
         /// <summary>
         /// Gets or sets appointments.
         /// </summary>
-        public ObservableCollection<Task> Tasks { get; set; }
-
-        public ObservableCollection<object> Resources { get; set; }
+        public List<Task> Tasks { get; set; }
 
         /// <summary>
-        /// Gets or sets the schedule display date.
+        /// Gets or sets resources to the scheduler.
         /// </summary>
-        public DateTime DisplayDate { get; set; }
+        public List<object> Resources { get; set; }
 
         /// <summary>
-        /// color collection
+        /// colors for employee task and scheduler resources
         /// </summary>
         private List<Brush> resourceColors;
 
@@ -32,21 +24,19 @@ namespace ProjectPlanningCalendar
         /// </summary>
         public ResourceViewModel()
         {
-            this.resourceColors = new List<Brush>();
-            this.Tasks = new ObservableCollection<Task>();
-            this.Resources = new ObservableCollection<object>();
-            this.DisplayDate = DateTime.Now.Date.AddHours(8).AddMinutes(50);
-            this.AddResourcesColors();
-            this.AddSchedulerResources();
-            this.PlanTasks();
+            this.resourceColors = this.GetResourceColors();
+            this.Resources = this.GetSchedulerResources();
+            this.Tasks = this.GetEmployeeTasks();
         }
 
         /// <summary>
         /// Method to add resources or employees to the scheduler.
         /// </summary>
-        private void AddSchedulerResources()
+        /// <returns>Scheduler resources</returns>
+        private List<object> GetSchedulerResources()
         {
-            Random random = new Random();
+            Random random = new();
+            List<object> resources = new();
             List<string> employeeNames = new List<string>
             {
                   "Robert", "Sophia", "Emilia" , "Stephen",  "James William", "Johnny", "Daniel", "Adeline Ruby","Kinsley Elena",
@@ -54,10 +44,9 @@ namespace ProjectPlanningCalendar
 
             for (int i = 0; i < 9; i++)
             {
-                Employee employees = new Employee();
+                Employee employees = new();
                 employees.Name = employeeNames[i];
                 employees.Background = this.resourceColors[random.Next(this.resourceColors.Count)];
-                employees.Foreground = (employees.Background as SolidColorBrush)?.Color.GetLuminosity() > 0.7 ? Colors.Black : Colors.White;
                 employees.Id = i + 1;
 
                 if (employees.Name == "Robert")
@@ -105,17 +94,20 @@ namespace ProjectPlanningCalendar
                     employees.ImageName = "people5.png";
                     employees.Role = "Content writer";
                 }
-                //// Bind this custom resources.
-                Resources.Add(employees);
+                resources.Add(employees);
             }
+
+            return resources;
         }
 
         /// <summary>
         /// Method to create tasks.
         /// </summary>
-        private void PlanTasks()
+        /// <returns>Employee tasks</returns>
+        private List<Task> GetEmployeeTasks()
         {
-            Random random = new Random();
+            Random random = new();
+            List<Task> tasks = new();
             DateTime dateFrom = DateTime.Now.AddDays(-80);
             DateTime dateTo = DateTime.Now.AddDays(80);
 
@@ -131,6 +123,7 @@ namespace ProjectPlanningCalendar
 
             List<string> documentationTasks = new List<string> { "User guide documentation", "Feature tour", "Whats new", "Road map", "Knowledge base", "Technical review", "Content review", };
 
+
             for (DateTime date = dateFrom; date < dateTo; date = date.AddDays(1))
             {
                 if (date.DayOfWeek != DayOfWeek.Monday)
@@ -140,7 +133,7 @@ namespace ProjectPlanningCalendar
                 {
                     Employee resource = this.Resources[i] as Employee;
                     DateTime startDate = new DateTime(date.Year, date.Month, date.Day, random.Next(9, 18), 0, 0);
-                    Task meeting = new Task();
+                    Task meeting = new();
                     meeting.From = startDate;
                     meeting.To = startDate.AddDays(4).AddHours(1);
                     meeting.Background = this.resourceColors[random.Next(resourceColors.Count)];
@@ -172,43 +165,45 @@ namespace ProjectPlanningCalendar
                         meeting.TaskName = documentationTasks[random.Next(documentationTasks.Count)];
                     }
 
-                    this.Tasks?.Add(meeting);
+                    tasks.Add(meeting);
                 }
             }
 
-            /// Plan daily scrum meeting  
-            Task recurringMeeting = new Task();
+            //// Plan daily scrum meeting  
+            Task recurringMeeting = new();
             recurringMeeting.TaskName = "Scrum meeting";
             recurringMeeting.From = new DateTime(dateFrom.Year, dateFrom.Month, dateFrom.Day, 10, 0, 0);
             recurringMeeting.To = recurringMeeting.From.AddMinutes(30);
-            recurringMeeting.Background = this.resourceColors[random.Next(resourceColors.Count)];
-            recurringMeeting.Resources = new ObservableCollection<object>() { 2, 3, 4, 5, 6, 7, 8, 9 };
+            recurringMeeting.Background = Color.FromArgb("#FF3D4FB5");
+            recurringMeeting.Resources = new ObservableCollection<object>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             recurringMeeting.IsAllDay = false;
-            recurringMeeting.RecurrenceRule = "FREQ=WEEKLY;BYDAY=MO,TU,WE,TH,FR;INTERVAL=1";
-            this.Tasks.Add(recurringMeeting);
+            recurringMeeting.RecurrenceRule = "FREQ=WEEKLY;BYDAY=TU,WE,TH;INTERVAL=1";
+            tasks.Add(recurringMeeting);
 
-            /// Plan weekly development meeting  
-            Task overAllDevelopmentMeeting = new Task();
+            //// Plan weekly development meeting  
+            Task overAllDevelopmentMeeting = new();
             overAllDevelopmentMeeting.TaskName = "Development meeting";
             overAllDevelopmentMeeting.From = new DateTime(dateFrom.Year, dateFrom.Month, dateFrom.Day, 11, 30, 0);
             overAllDevelopmentMeeting.To = overAllDevelopmentMeeting.From.AddMinutes(30);
-            overAllDevelopmentMeeting.Background = this.resourceColors[random.Next(resourceColors.Count)];
+            overAllDevelopmentMeeting.Background = Color.FromArgb("#FF36B37B");
             overAllDevelopmentMeeting.Resources = new ObservableCollection<object>() { 1, 2, 3, 4, 5, 6, 7, 8, 9 };
             overAllDevelopmentMeeting.IsAllDay = false;
             overAllDevelopmentMeeting.RecurrenceRule = "FREQ=WEEKLY;BYDAY=TU;INTERVAL=1";
-            this.Tasks.Add(overAllDevelopmentMeeting);
+            tasks.Add(overAllDevelopmentMeeting);
 
+            return tasks;
         }
 
         /// <summary>
-        /// Method to add colors for task and scheduler resources.
+        /// Method to add colors for employee task and scheduler resources.
         /// </summary>
-        private void AddResourcesColors()
+        /// <returns>resource colors</returns>
+        private List<Brush> GetResourceColors()
         {
-            this.resourceColors = new List<Brush>
+            return new List<Brush>
             {
                 Color.FromArgb("#FF8B1FA9"), Color.FromArgb("#FFD20100"), Color.FromArgb("#FFFC571D"), Color.FromArgb("#FF36B37B"), Color.FromArgb("#FF3D4FB5"),
-                Color.FromArgb("#FF3D4FB5"), Color.FromArgb("#FF636363"),  Color.FromArgb("#FF636363"),  Color.FromArgb("#FF01A1EF"), Color.FromArgb("#FF0F8644"), Color.FromArgb("#FF00ABA9")
+                Color.FromArgb("#FF3D4FB5"), Color.FromArgb("#FF01A1EF"), Color.FromArgb("#FF0F8644"), Color.FromArgb("#FF00ABA9")
             };
         }
 

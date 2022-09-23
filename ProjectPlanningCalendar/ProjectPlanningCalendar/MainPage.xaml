@@ -8,12 +8,13 @@
         <local:ImageSourceConverter x:Key="imageConverter"/>
     </ContentPage.Resources>
     <Grid>
-        <schedule:SfScheduler x:Name="Scheduler" DisplayDate="{Binding DisplayDate}"
+        <schedule:SfScheduler x:Name="Scheduler"
+                                  DisabledDateBackground="#1a92958e"
                                   AppointmentsSource="{Binding Tasks}"
+                                  AllowedViews="TimelineDay,TimelineWeek,TimelineWorkWeek,TimelineMonth"
                                   View="TimelineMonth">
             <schedule:SfScheduler.ResourceView>
                 <!--Bind custom resources from view model-->
-
                 <schedule:SchedulerResourceView Resources="{Binding Resources}">
                     <schedule:SchedulerResourceView.HeaderTemplate>
                         <DataTemplate>
@@ -38,16 +39,13 @@
                             </StackLayout>
                         </DataTemplate>
                     </schedule:SchedulerResourceView.HeaderTemplate>
-
                     <schedule:SchedulerResourceView.Mapping>
                         <schedule:SchedulerResourceMapping Name="Name"
                                                        Id="Id"
-                                                       Background="Background"
-                                                       Foreground="Foreground"/>
+                                                       Background="Background"/>
                     </schedule:SchedulerResourceView.Mapping>
                 </schedule:SchedulerResourceView>
             </schedule:SfScheduler.ResourceView>
-
             <schedule:SfScheduler.AppointmentMapping>
                 <schedule:SchedulerAppointmentMapping
                     Subject="TaskName"
@@ -58,15 +56,12 @@
                     RecurrenceRule="RecurrenceRule"
                     ResourceIds="Resources"/>
             </schedule:SfScheduler.AppointmentMapping>
-
             <schedule:SfScheduler.BindingContext>
                 <local:ResourceViewModel/>
             </schedule:SfScheduler.BindingContext>
-
             <schedule:SfScheduler.Behaviors>
                 <local:ResourceViewBehavior/>
             </schedule:SfScheduler.Behaviors>
-
         </schedule:SfScheduler>
     </Grid>
 </ContentPage>

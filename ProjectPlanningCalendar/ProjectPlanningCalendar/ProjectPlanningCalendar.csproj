@@ -49,30 +49,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiImage Remove="Resources\Images\people1.png" />
-	  <MauiImage Remove="Resources\Images\people2.png" />
-	  <MauiImage Remove="Resources\Images\people3.png" />
-	  <MauiImage Remove="Resources\Images\people4.png" />
-	  <MauiImage Remove="Resources\Images\people5.png" />
-	  <MauiImage Remove="Resources\Images\people6.png" />
-	  <MauiImage Remove="Resources\Images\people7.png" />
-	  <MauiImage Remove="Resources\Images\people8.png" />
-	  <MauiImage Remove="Resources\Images\people9.png" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <EmbeddedResource Include="Resources\Images\people1.png" />
-	  <EmbeddedResource Include="Resources\Images\people2.png" />
-	  <EmbeddedResource Include="Resources\Images\people3.png" />
-	  <EmbeddedResource Include="Resources\Images\people4.png" />
-	  <EmbeddedResource Include="Resources\Images\people5.png" />
-	  <EmbeddedResource Include="Resources\Images\people6.png" />
-	  <EmbeddedResource Include="Resources\Images\people7.png" />
-	  <EmbeddedResource Include="Resources\Images\people8.png" />
-	  <EmbeddedResource Include="Resources\Images\people9.png" />
-	</ItemGroup>
-
-	<ItemGroup>
 	  <PackageReference Include="Syncfusion.Maui.Scheduler" Version="20.2.49" />
 	</ItemGroup>
 
