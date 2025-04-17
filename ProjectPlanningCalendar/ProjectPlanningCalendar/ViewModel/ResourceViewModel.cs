@@ -12,7 +12,7 @@ namespace ProjectPlanningCalendar
         /// <summary>
         /// Gets or sets resources to the scheduler.
         /// </summary>
-        public List<object> Resources { get; set; }
+        public List<object> Resources { get; set; } = new List<object>();
 
         /// <summary>
         /// colors for employee task and scheduler resources
@@ -131,7 +131,9 @@ namespace ProjectPlanningCalendar
 
                 for (int i = 0; i < 9; i++)
                 {
-                    Employee resource = this.Resources[i] as Employee;
+                    Employee? resource = this.Resources[i] as Employee;
+                    if (resource?.Id == null)
+                        continue;
                     DateTime startDate = new DateTime(date.Year, date.Month, date.Day, random.Next(9, 18), 0, 0);
                     Task task = new();
                     task.From = startDate;
