@@ -17,22 +17,22 @@ namespace ProjectPlanningCalendar
         /// <summary>
         /// Gets or sets the value to display the subject.
         /// </summary>
-        public string TaskName { get; set; }
+        public string TaskName { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the value to display the background.
         /// </summary>
-        public Brush Background { get; set; }
+        public Brush? Background { get; set; }
 
         /// <summary>
         /// Gets or sets the value to display the RRule.
         /// </summary>
-        public string RecurrenceRule { get; set; }
+        public string RecurrenceRule { get; set; } = string.Empty;
 
         /// <summary>
         /// Gets or sets the value to display the resource collection.
         /// </summary>
-        public ObservableCollection<object> Resources { get; set; }
+        public ObservableCollection<object> Resources { get; set; } = new ObservableCollection<object>();
 
         /// <summary>
         /// Gets or sets the value to all day appointment.

@@ -7,7 +7,7 @@ namespace ProjectPlanningCalendar
         /// <summary>
         /// Begins when the behavior attached to the view 
         /// </summary>
-        /// <param name="bindable">bindable value.</param>
+        /// <param name="scheduler">bindable value.</param>
         protected override void OnAttachedTo(SfScheduler scheduler)
         {
             base.OnAttachedTo(scheduler);

@@ -9,17 +9,21 @@
     </ContentPage.Resources>
     <Grid>
         <schedule:SfScheduler x:Name="Scheduler"
+                              x:DataType="local:ResourceViewModel"
                                   DisabledDateBackground="#1a92958e"
                                   AppointmentsSource="{Binding Tasks}"
                                   AllowedViews="TimelineDay,TimelineWeek,TimelineWorkWeek,TimelineMonth"
                                   View="TimelineMonth">
             <schedule:SfScheduler.ResourceView>
                 <!--Bind custom resources from view model-->
-                <schedule:SchedulerResourceView Resources="{Binding Resources}">
+                <schedule:SchedulerResourceView 
+                    x:DataType="local:ResourceViewModel"
+                    Resources="{Binding Resources}">
                     <schedule:SchedulerResourceView.HeaderTemplate>
                         <DataTemplate>
                             <StackLayout IsClippedToBounds="True" Padding="5" Orientation="Vertical" VerticalOptions="Center" HorizontalOptions="Fill">
                                 <Border StrokeThickness="5"
+                                        x:DataType="local:Employee"
                                             Stroke="{Binding Background}"
                                             HorizontalOptions="Center"
                                             HeightRequest="{OnIdiom Desktop = 70, Phone = 65}"
@@ -27,15 +31,22 @@
                                     <Border.StrokeShape>
                                         <RoundRectangle CornerRadius="150"/>
                                     </Border.StrokeShape>
-                                    <Image WidthRequest="{OnIdiom Desktop = 55, Phone = 50}"
+                                    <Image 
+                                        x:DataType="local:Employee"
+                                        WidthRequest="{OnIdiom Desktop = 55, Phone = 50}"
                                                HeightRequest="{OnIdiom Desktop = 55, Phone = 50}"
                                                HorizontalOptions="Center"
-                                               Source="{Binding DataItem.ImageName,Converter={StaticResource imageConverter}}" 
+                                               Source="{Binding ImageName,Converter={StaticResource imageConverter}}" 
                                                VerticalOptions="Center"
                                         Aspect="Fill"/>
                                 </Border>
-                                <Label Text="{Binding Name}" FontAttributes="Bold" TextColor="Black" FontSize="{OnIdiom Desktop= 12, Phone=10}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
-                                <Label Text="{Binding DataItem.Role}" TextColor="Black" FontSize="{OnIdiom Desktop= 12, Phone=10}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                                <Label 
+                                     x:DataType="local:Employee"
+                                    Text="{Binding Name}"
+                                       FontAttributes="Bold" TextColor="Black" FontSize="{OnIdiom Desktop= 12, Phone=10}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
+                                <Label 
+                                     x:DataType="local:Employee"
+                                    Text="{Binding Role}" TextColor="Black" FontSize="{OnIdiom Desktop= 12, Phone=10}" VerticalTextAlignment="Center" HorizontalTextAlignment="Center"/>
                             </StackLayout>
                         </DataTemplate>
                     </schedule:SchedulerResourceView.HeaderTemplate>
